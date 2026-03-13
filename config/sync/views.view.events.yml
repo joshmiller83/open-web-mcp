@@ -1,0 +1,372 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.event.field_event_date
+    - field.field.node.event.field_event_format
+    - field.field.node.event.field_topics
+    - node.type.event
+  module:
+    - datetime
+    - node
+    - user
+id: events
+label: Events
+module: views
+description: 'All Open Web Exchange events with filters for date, format, and topic.'
+tag: ''
+base_table: node_field_data
+base_field: nid
+display:
+  default:
+    display_plugin: default
+    id: default
+    display_title: Default
+    position: 0
+    display_options:
+      title: Events
+      use_more: false
+      use_more_always: true
+      use_more_text: 'more'
+      link_display: ''
+      link_url: ''
+      exposed_block: false
+      group_by: false
+      query:
+        type: views_query
+        options:
+          disable_sql_rewrite: false
+          distinct: false
+          replica: false
+          query_comment: ''
+          query_tags: {  }
+      relationships: {  }
+      filters:
+        status:
+          value: '1'
+          table: node_field_data
+          field: status
+          plugin_id: boolean
+          id: status
+          expose:
+            operator: ''
+          group: 1
+        type:
+          id: type
+          table: node_field_data
+          field: type
+          value:
+            event: event
+          plugin_id: bundle
+          group: 1
+        field_event_date_value:
+          id: field_event_date_value
+          table: node__field_event_date
+          field: field_event_date_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: '>='
+          value:
+            type: date
+            value: 'now'
+            min: ''
+            max: ''
+          exposed: true
+          expose:
+            operator_id: field_event_date_value_op
+            label: 'From Date'
+            description: ''
+            use_operator: false
+            operator: field_event_date_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: date_from
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            placeholder: ''
+            min_placeholder: ''
+            max_placeholder: ''
+          is_grouped: false
+          plugin_id: datetime
+          group: 1
+        field_event_format_value:
+          id: field_event_format_value
+          table: node__field_event_format
+          field: field_event_format_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: in
+          value: {  }
+          exposed: true
+          expose:
+            operator_id: ''
+            label: Format
+            description: ''
+            use_operator: false
+            operator: field_event_format_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: format
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+          is_grouped: false
+          plugin_id: list_field
+          group: 1
+        field_topics_target_id:
+          id: field_topics_target_id
+          table: node__field_topics
+          field: field_topics_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: or
+          value: {  }
+          exposed: true
+          expose:
+            operator_id: field_topics_target_id_op
+            label: Topic
+            description: ''
+            use_operator: false
+            operator: field_topics_target_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: topic
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          plugin_id: taxonomy_index_tid
+          group: 1
+      sorts:
+        field_event_date_value:
+          id: field_event_date_value
+          table: node__field_event_date
+          field: field_event_date_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: ASC
+          exposed: false
+          expose:
+            label: ''
+          granularity: second
+          plugin_id: datetime
+      fields:
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: Title
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: true
+          plugin_id: field
+        field_event_date:
+          id: field_event_date
+          table: node__field_event_date
+          field: field_event_date
+          label: 'Start Date'
+          settings:
+            timezone_override: ''
+            format_type: medium
+          plugin_id: field
+        field_event_format:
+          id: field_event_format
+          table: node__field_event_format
+          field: field_event_format
+          label: Format
+          plugin_id: field
+        field_topics:
+          id: field_topics
+          table: node__field_topics
+          field: field_topics
+          label: Topics
+          settings:
+            link: true
+          plugin_id: field
+        field_registration_limit:
+          id: field_registration_limit
+          table: node__field_registration_limit
+          field: field_registration_limit
+          label: 'Capacity'
+          plugin_id: field
+      pager:
+        type: full
+        options:
+          items_per_page: 20
+          offset: 0
+          id: 0
+          total_pages: null
+          expose:
+            items_per_page: false
+            items_per_page_label: 'Items per page'
+            items_per_page_options: '5, 10, 25, 50'
+            items_per_page_options_all: false
+            items_per_page_options_all_label: '- All -'
+            offset: false
+            offset_label: Offset
+          tags:
+            previous: '‹ Previous'
+            next: 'Next ›'
+            first: '« First'
+            last: 'Last »'
+      style:
+        type: table
+        options:
+          grouping: {  }
+          row_class: ''
+          default_row_class: true
+          columns:
+            title: title
+            field_event_date: field_event_date
+            field_event_format: field_event_format
+            field_topics: field_topics
+            field_registration_limit: field_registration_limit
+          default: field_event_date
+          info:
+            title:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_event_date:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_event_format:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_topics:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+          override: true
+          sticky: false
+          summary: ''
+          empty_table: false
+          caption: ''
+          description: ''
+      row:
+        type: fields
+      header: {  }
+      footer: {  }
+      empty: {  }
+      css_class: ''
+      access:
+        type: none
+        options: {  }
+      cache:
+        type: tag
+        options: {  }
+      exposed_form:
+        type: basic
+        options:
+          submit_button: Apply
+          reset_button: false
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
+          expose_sort_order: true
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      rendering_language: '***LANGUAGE_language_interface***'
+  page_1:
+    display_plugin: page
+    id: page_1
+    display_title: 'Events Calendar'
+    position: 1
+    display_options:
+      display_extenders: {  }
+      path: events
+      menu:
+        type: normal
+        title: Events
+        description: 'Browse Open Web Exchange events'
+        expanded: false
+        parent: ''
+        weight: 0
+        context: '0'
+        menu_name: main
+  rest_export_1:
+    display_plugin: rest_export
+    id: rest_export_1
+    display_title: 'Events REST API'
+    position: 2
+    display_options:
+      display_extenders: {  }
+      path: api/events
+      auth:
+        - cookie
+        - basic_auth
+      style:
+        type: serializer
+        options:
+          uses_fields: false
+          formats:
+            json: json

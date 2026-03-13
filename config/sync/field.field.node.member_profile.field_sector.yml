@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_sector
+    - node.type.member_profile
+id: node.member_profile.field_sector
+field_name: field_sector
+entity_type: node
+bundle: member_profile
+label: Sector
+description: 'The industry or sector this member works in.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

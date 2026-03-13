@@ -1,0 +1,13 @@
+# Open Web Exchange module settings.
+#
+# These values can be overridden in settings.php or through the
+# admin configuration form at /admin/config/open-web-exchange/settings.
+
+# Maximum registrations a single user may hold across all events.
+max_registrations_per_user: 10
+
+# Number of days ahead to consider an event "upcoming" for recommendations.
+recommendation_lookahead_days: 90
+
+# Enable MCP tool debug logging.
+mcp_debug_logging: false

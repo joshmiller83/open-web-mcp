@@ -1,0 +1,12 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+name: Registration
+type: registration
+description: 'An event registration record linking a member to an event.'
+help: ''
+new_revision: false
+preview_mode: 0
+display_submitted: false

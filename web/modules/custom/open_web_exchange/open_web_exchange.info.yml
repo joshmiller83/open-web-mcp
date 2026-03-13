@@ -1,0 +1,12 @@
+name: 'Open Web Exchange'
+type: module
+description: 'Custom event platform features and MCP tools for the Open Web Exchange DrupalCon demo. Provides tools for querying events, managing registrations, and delivering AI-powered recommendations.'
+package: 'Open Web Exchange'
+core_version_requirement: ^10.3 || ^11
+dependencies:
+  - drupal:node
+  - drupal:taxonomy
+  - drupal:views
+  - drupal:datetime
+  - drupal:user
+  - mcp:mcp

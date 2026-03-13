@@ -1,0 +1,27 @@
+# Composer
+/vendor/
+/web/core/
+/web/modules/contrib/
+/web/themes/contrib/
+/web/profiles/contrib/
+/web/libraries/
+
+# Drupal
+/web/sites/default/files/
+/web/sites/default/settings.php
+/web/sites/default/settings.local.php
+/web/sites/default/services.yml
+
+# DDEV
+/.ddev/.gitignore
+
+# Drush
+/drush/Commands/contrib/
+
+# IDE
+/.idea/
+/.vscode/
+*.DS_Store
+
+# Generated
+/web/sites/default/default.settings.php.bak

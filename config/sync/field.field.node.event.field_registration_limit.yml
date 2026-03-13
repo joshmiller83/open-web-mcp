@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_registration_limit
+    - node.type.event
+id: node.event.field_registration_limit
+field_name: field_registration_limit
+entity_type: node
+bundle: event
+label: 'Registration Limit'
+description: 'Maximum number of registrations allowed. Leave blank for unlimited capacity.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: ''
+  max: ''
+  prefix: ''
+  suffix: ' seats'
+field_type: integer

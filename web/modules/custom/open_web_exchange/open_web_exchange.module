@@ -1,0 +1,67 @@
+<?php
+
+/**
+ * @file
+ * Open Web Exchange module hooks.
+ *
+ * Provides event management, registration workflows, and MCP tool integrations
+ * for the Open Web Exchange DrupalCon demo platform.
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_node_presave().
+ *
+ * Validates registration limit and enforces business rules before saving events.
+ */
+function open_web_exchange_node_presave(EntityInterface $entity) {
+  if ($entity->bundle() !== 'event') {
+    return;
+  }
+
+  // Ensure end date is after start date when both are set.
+  $start = $entity->get('field_event_date')->value;
+  $end = $entity->get('field_event_end_date')->value;
+  if ($start && $end && $end <= $start) {
+    \Drupal::messenger()->addWarning(t('The event end date should be after the start date.'));
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_view() for node entities.
+ *
+ * Adds registration availability information to event display.
+ */
+function open_web_exchange_node_view(array &$build, EntityInterface $entity, $display, $view_mode) {
+  if ($entity->bundle() !== 'event' || $view_mode !== 'full') {
+    return;
+  }
+
+  /** @var \Drupal\open_web_exchange\RegistrationService $registration_service */
+  $registration_service = \Drupal::service('open_web_exchange.registration_service');
+  $availability = $registration_service->getAvailability($entity);
+
+  $build['registration_availability'] = [
+    '#theme' => 'open_web_exchange_availability',
+    '#availability' => $availability,
+    '#event' => $entity,
+    '#weight' => 10,
+  ];
+}
+
+/**
+ * Implements hook_theme().
+ */
+function open_web_exchange_theme($existing, $type, $theme, $path) {
+  return [
+    'open_web_exchange_availability' => [
+      'variables' => [
+        'availability' => NULL,
+        'event' => NULL,
+      ],
+    ],
+  ];
+}

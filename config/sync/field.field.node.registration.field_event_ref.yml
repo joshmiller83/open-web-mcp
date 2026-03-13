@@ -1,0 +1,24 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_event_ref
+    - node.type.event
+    - node.type.registration
+id: node.registration.field_event_ref
+field_name: field_event_ref
+entity_type: node
+bundle: registration
+label: Event
+description: 'The event this registration is for.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      event: event
+    auto_create: false
+field_type: entity_reference
