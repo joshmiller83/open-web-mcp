@@ -1,0 +1,29 @@
+# Drupal MCP Module Settings
+# Configuration for the Model Context Protocol integration.
+# See: https://www.drupal.org/project/mcp
+
+# Enable MCP endpoint.
+enabled: true
+
+# Require authentication for MCP tool calls.
+require_auth: true
+
+# Allowed authentication methods.
+auth_methods:
+  - basic_auth
+  - oauth2
+
+# Tools exposed via MCP (managed by the open_web_exchange module).
+# Additional tools registered via @McpTool plugin annotation.
+enabled_core_tools:
+  - query_events
+  - get_event_details
+  - register_for_event
+  - suggest_events
+  - get_speaker_info
+
+# Rate limiting: max requests per minute per authenticated user.
+rate_limit: 60
+
+# Log all MCP tool calls for audit purposes.
+audit_logging: true

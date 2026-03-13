@@ -1,0 +1,28 @@
+services:
+  open_web_exchange.event_query_service:
+    class: Drupal\open_web_exchange\EventQueryService
+    arguments:
+      - '@entity_type.manager'
+      - '@database'
+      - '@datetime.time'
+
+  open_web_exchange.registration_service:
+    class: Drupal\open_web_exchange\RegistrationService
+    arguments:
+      - '@entity_type.manager'
+      - '@current_user'
+      - '@messenger'
+
+  open_web_exchange.recommendation_service:
+    class: Drupal\open_web_exchange\RecommendationService
+    arguments:
+      - '@entity_type.manager'
+      - '@open_web_exchange.event_query_service'
+
+  open_web_exchange.drush_commands:
+    class: Drupal\open_web_exchange\Commands\OpenWebExchangeCommands
+    arguments:
+      - '@open_web_exchange.event_query_service'
+      - '@open_web_exchange.recommendation_service'
+    tags:
+      - { name: drush.command }

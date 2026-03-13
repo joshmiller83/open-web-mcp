@@ -1,0 +1,12 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+name: Event
+type: event
+description: 'An Open Web Exchange event — workshop, panel, working session, briefing, or roundtable.'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

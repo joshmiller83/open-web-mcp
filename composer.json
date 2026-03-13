@@ -1,0 +1,109 @@
+{
+    "name": "open-web-exchange/open-web-mcp",
+    "description": "Open Web Exchange — MCP-powered Drupal Event Platform for DrupalCon Demo",
+    "type": "project",
+    "license": "GPL-2.0-or-later",
+    "homepage": "https://www.drupal.org/project/drupal",
+    "support": {
+        "docs": "https://www.drupal.org/docs/user_guide/en/index.html",
+        "chat": "https://www.drupal.org/node/314178"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        }
+    ],
+    "require": {
+        "composer/installers": "^2.0",
+        "drupal/admin_toolbar": "^3.4",
+        "drupal/cms": "^1.0",
+        "drupal/entity_reference_revisions": "^1.10",
+        "drupal/field_group": "^3.4",
+        "drupal/mcp": "^1.0",
+        "drupal/paragraphs": "^1.17",
+        "drupal/pathauto": "^1.12",
+        "drupal/registration": "^3.0",
+        "drupal/scheduler": "^2.0",
+        "drupal/token": "^1.13",
+        "drupal/views_bulk_operations": "^4.2",
+        "drush/drush": "^12.0"
+    },
+    "require-dev": {
+        "drupal/core-dev": "^10.3",
+        "drupal/devel": "^5.0"
+    },
+    "conflict": {
+        "drupal/drupal": "*"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true,
+            "drupal/core-composer-scaffold": true,
+            "drupal/core-project-message": true,
+            "phpstan/extension-installer": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "php-http/discovery": true
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "drupal-scaffold": {
+            "locations": {
+                "web-root": "web/"
+            }
+        },
+        "installer-paths": {
+            "web/core": [
+                "type:drupal-core"
+            ],
+            "web/libraries/{$name}": [
+                "type:drupal-library"
+            ],
+            "web/modules/contrib/{$name}": [
+                "type:drupal-module"
+            ],
+            "web/profiles/contrib/{$name}": [
+                "type:drupal-profile"
+            ],
+            "web/themes/contrib/{$name}": [
+                "type:drupal-theme"
+            ],
+            "drush/Commands/contrib/{$name}": [
+                "type:drupal-drush"
+            ],
+            "web/modules/custom/{$name}": [
+                "type:drupal-custom-module"
+            ],
+            "web/profiles/custom/{$name}": [
+                "type:drupal-custom-profile"
+            ],
+            "web/themes/custom/{$name}": [
+                "type:drupal-custom-theme"
+            ]
+        },
+        "drupal-core-project-message": {
+            "include-keys": [
+                "homepage",
+                "support"
+            ],
+            "post-create-project-cmd-message": [
+                "<bg=blue;fg=white>                                                         </>",
+                "<bg=blue;fg=white>  Congratulations, you've installed the Drupal codebase  </>",
+                "<bg=blue;fg=white>  from the drupal/recommended-project template!          </>",
+                "<bg=blue;fg=white>                                                         </>",
+                "<bg=blue;fg=white>  Next steps:                                            </>",
+                "<bg=blue;fg=white>    * Install the site: https://www.drupal.org/docs/     </>",
+                "<bg=blue;fg=white>      installing-drupal                                  </>",
+                "<bg=blue;fg=white>    * Read the user guide: https://www.drupal.org/docs/  </>",
+                "<bg=blue;fg=white>      user_guide/en/index.html                           </>",
+                "<bg=blue;fg=white>    * Get support: https://www.drupal.org/support        </>",
+                "<bg=blue;fg=white>    * Get involved with the Drupal community:            </>",
+                "<bg=blue;fg=white>       https://www.drupal.org/getting-involved           </>",
+                "<bg=blue;fg=white>                                                         </>"
+            ]
+        }
+    }
+}
