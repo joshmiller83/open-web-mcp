@@ -17,6 +17,7 @@ web_environment:
 hooks:
     post-start:
         - exec: "[ -f /var/www/html/web/sites/default/settings.ddev.php ] || true"
+        - exec: "mkdir -p /var/www/html/web/sites/default/files && chown -R www-data:www-data /var/www/html/web/sites/default && chmod 775 /var/www/html/web/sites/default /var/www/html/web/sites/default/files"
     post-import-db:
         - exec: drush cr
         - exec: drush updb -y

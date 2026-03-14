@@ -72,7 +72,8 @@
                 "web-root": "web/"
             },
             "file-mapping": {
-                "[web-root]/example.gitignore": false
+                "[web-root]/example.gitignore": false,
+                "[web-root]/sites/default/settings.php": false
             }
         },
         "installer-paths": {
