@@ -1,3 +1,6 @@
+# Dependencies managed by Composer.
+/recipes
+
 # Composer
 /vendor/
 /web/core/
