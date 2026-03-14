@@ -23,6 +23,7 @@
         "drupal/core-recipe-unpack": "^11.2.4",
         "drupal/core-recommended": "^11.2.4",
         "drupal/core-vendor-hardening": "^11.2.4",
+        "drupal/admin_toolbar": "^3.4",
         "drupal/drupal_cms_accessibility_tools": "^1.2",
         "drupal/drupal_cms_ai": "^1.2",
         "drupal/drupal_cms_blog": "^1.2",
@@ -36,10 +37,15 @@
         "drupal/drupal_cms_project": "^1.2",
         "drupal/drupal_cms_seo_tools": "^1.2",
         "drupal/drupal_cms_starter": "^1.2",
+        "drupal/mcp": "^1.0",
         "drupal/recipe_installer_kit": "^1-alpha6@alpha",
+        "drupal/registration": "^3.0",
+        "drupal/scheduler": "^2.0",
+        "drupal/views_bulk_operations": "^4.2",
         "drupal/webform": "@beta"
     },
     "require-dev": {
+        "drupal/devel": "^5.0",
         "drush/drush": "^13.6.1"
     },
     "conflict": {
