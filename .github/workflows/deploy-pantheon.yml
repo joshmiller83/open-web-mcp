@@ -46,27 +46,12 @@ jobs:
       - name: Composer install (no dev dependencies)
         run: composer install --no-dev --optimize-autoloader --no-interaction
 
-      - name: Stage build artifacts for Pantheon push
-        run: |
-          # Remove gitignore rules for composer-managed dirs so they are
-          # included in the git push to Pantheon. This only affects the
-          # temporary CI checkout — it does not modify the repo.
-          sed -i '/^\/vendor\/$/d' .gitignore
-          sed -i '/^\/web\/core\/$/d' .gitignore
-          sed -i '/^\/web\/modules\/contrib\/$/d' .gitignore
-          sed -i '/^\/web\/themes\/contrib\/$/d' .gitignore
-          sed -i '/^\/web\/profiles\/contrib\/$/d' .gitignore
-          sed -i '/^\/recipes$/d' .gitignore
-          git config user.email "bot@getpantheon.com"
-          git config user.name "Pantheon Automation"
-          git add -A
-          git commit -m "Add build artifacts for Pantheon deployment"
-
       - name: Push to Pantheon
         uses: pantheon-systems/push-to-pantheon@0.9.0
         with:
           ssh_key: ${{ secrets.PANTHEON_SSH_KEY }}
           machine_token: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
           site: ${{ secrets.PANTHEON_SITE }}
+          relative_site_root: "."
           git_commit_message: "Deploy ${{ github.sha }} from GitHub Actions"
           delete_old_environments: ${{ github.ref == 'refs/heads/main' }}
