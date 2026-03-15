@@ -1,0 +1,22 @@
+uuid: a28b3624-e664-4640-96af-a9b0e66aae88
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - owe_theme
+_core:
+  default_config_hash: 5ra2HNIksWbp6AhPpTufTGSlgx2FR7RR_ssxdjgFg4I
+id: owe_theme_messages
+theme: owe_theme
+region: highlighted
+weight: -5
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: 'Status messages'
+  label_display: '0'
+  provider: system
+visibility: {  }

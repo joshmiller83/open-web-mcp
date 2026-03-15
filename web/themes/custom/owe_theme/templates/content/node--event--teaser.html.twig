@@ -1,0 +1,49 @@
+{#
+/**
+ * @file
+ * Event teaser card for the /events listing page.
+ *
+ * Available variables:
+ *   - node: The node entity.
+ *   - content: Rendered fields (keyed by field name).
+ *   - url: Canonical URL for the node.
+ *   - label: Node title.
+ */
+#}
+{% set format_value = node.field_event_format.value %}
+<article{{ attributes.addClass('event-card') }}>
+  {{ title_prefix }}
+  {{ title_suffix }}
+
+  {% if content.field_featured_image|render|striptags|trim %}
+    <div class="event-card__image">
+      {{ content.field_featured_image }}
+    </div>
+  {% endif %}
+
+  <div class="card__content">
+    <header>
+      {% if format_value %}
+        <span class="event-format-badge event-format-badge--{{ format_value|replace({'_': '-'})|lower }}">
+          {{ format_value|replace({'_': ' ', 'in person': 'In Person'})|title }}
+        </span>
+      {% endif %}
+
+      <h3 class="card__title">
+        <a href="{{ url }}">{{ label }}</a>
+      </h3>
+
+      {% if content.field_event__date|render|striptags|trim %}
+        <div class="card__date">{{ content.field_event__date }}</div>
+      {% endif %}
+
+      {% if node.field_event__location_name.value %}
+        <div class="card__location">{{ node.field_event__location_name.value }}</div>
+      {% endif %}
+    </header>
+
+    {% if node.field_description.value %}
+      <div class="card__description">{{ node.field_description.value }}</div>
+    {% endif %}
+  </div>
+</article>

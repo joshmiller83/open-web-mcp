@@ -1,0 +1,22 @@
+uuid: 2019150b-52bc-4330-a150-4938f5e55a2f
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - owe_theme
+_core:
+  default_config_hash: rUKMsaj4XvIHtU3kRiHIA6Rkn4IHzCkhTiUZudMkp14
+id: owe_theme_breadcrumbs
+theme: owe_theme
+region: breadcrumb
+weight: 0
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  label_display: '0'
+  provider: system
+visibility: {  }

@@ -1,0 +1,27 @@
+uuid: 24299bea-1e08-48a7-a157-7f3ecdc1fe6d
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.account
+  module:
+    - system
+  theme:
+    - owe_theme
+_core:
+  default_config_hash: DxdLrNHPG9b5uQwKs4BJ9R5e8_jtJsQDY8rqliXtd9w
+id: owe_theme_account_menu
+theme: owe_theme
+region: secondary_menu
+weight: -4
+provider: null
+plugin: 'system_menu_block:account'
+settings:
+  id: 'system_menu_block:account'
+  label: 'User account menu'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 1
+  expand_all_items: false
+visibility: {  }

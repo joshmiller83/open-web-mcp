@@ -1,0 +1,22 @@
+uuid: bda86345-4203-4396-aad8-694860a8cc21
+langcode: en
+status: true
+dependencies:
+  theme:
+    - owe_theme
+_core:
+  default_config_hash: 3KAyDgB3FHENrBwroAUcCPvkfPHBMFcRDnsZFyFMuwc
+id: owe_theme_secondary_local_tasks
+theme: owe_theme
+region: highlighted
+weight: -2
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: 'Secondary tabs'
+  label_display: '0'
+  provider: core
+  primary: false
+  secondary: true
+visibility: {  }

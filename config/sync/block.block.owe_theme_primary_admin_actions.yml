@@ -1,0 +1,20 @@
+uuid: 556ddd84-9083-47de-844f-856f5c1186d2
+langcode: en
+status: true
+dependencies:
+  theme:
+    - owe_theme
+_core:
+  default_config_hash: bXIY_bcTLD1-0gwNQhWPHANNy6hQa_RxJgvHxKhNS2E
+id: owe_theme_primary_admin_actions
+theme: owe_theme
+region: highlighted
+weight: -5
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  label_display: '0'
+  provider: core
+visibility: {  }

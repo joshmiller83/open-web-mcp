@@ -1,0 +1,22 @@
+uuid: 70ae12b6-8171-41fd-883b-99da34a5d22f
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - owe_theme
+_core:
+  default_config_hash: 5VBXsyvJSTQNtrh86WK8GN_FCaRtK03D1fjfZQnUvtU
+id: owe_theme_powered
+theme: owe_theme
+region: sidebar_first
+weight: 0
+provider: null
+plugin: system_powered_by_block
+settings:
+  id: system_powered_by_block
+  label: 'Powered by Drupal'
+  label_display: '0'
+  provider: system
+visibility: {  }

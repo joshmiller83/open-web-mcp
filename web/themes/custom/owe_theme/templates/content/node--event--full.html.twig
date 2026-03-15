@@ -1,0 +1,66 @@
+{#
+/**
+ * @file
+ * Full event detail page template.
+ *
+ * Renders Layout Builder content (featured image, date, location, body),
+ * then appends a speakers grid and a Register CTA.
+ *
+ * Available variables:
+ *   - node: The node entity.
+ *   - content: Rendered fields / Layout Builder output.
+ *   - url: Canonical URL.
+ *   - label: Node title.
+ */
+#}
+<article{{ attributes }}>
+  {{ title_prefix }}
+  {{ title_suffix }}
+
+  <div{{ content_attributes }}>
+    {# Render everything except speakers and links (LB handles the main layout) #}
+    {{ content|without('field_speakers', 'links') }}
+
+    {# ── Speakers ───────────────────────────────── #}
+    {% if node.field_speakers is not empty %}
+      <section class="event-speakers">
+        <h2>Speakers</h2>
+        <div class="event-speakers__grid">
+          {% for item in node.field_speakers %}
+            {% set speaker = item.entity %}
+            {% if speaker %}
+              <div class="event-speaker-card">
+                {% if speaker.field_featured_image is not empty %}
+                  <div class="event-speaker-card__image">
+                    {{ content.field_speakers[loop.index0] }}
+                  </div>
+                {% endif %}
+                <div class="event-speaker-card__info">
+                  <a href="{{ path('entity.node.canonical', {'node': speaker.id()}) }}">
+                    {{ speaker.label() }}
+                  </a>
+                  {% if speaker.field_person__role_job_title.value %}
+                    <div>{{ speaker.field_person__role_job_title.value }}</div>
+                  {% endif %}
+                  {% if speaker.field_organization.value %}
+                    <div>{{ speaker.field_organization.value }}</div>
+                  {% endif %}
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
+
+    {# ── Register CTA ───────────────────────────── #}
+    <div class="event-register">
+      <h2>Register for This Event</h2>
+      <p>Secure your spot at this event. Registration is free.</p>
+      <a href="/webform/event_registration?event_id={{ node.id() }}"
+         class="button button--primary button--large">
+        Register Now
+      </a>
+    </div>
+  </div>
+</article>

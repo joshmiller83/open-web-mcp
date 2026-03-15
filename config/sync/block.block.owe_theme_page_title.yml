@@ -1,0 +1,20 @@
+uuid: 24b978f9-cd7a-49b3-a0cf-bad618ad102a
+langcode: en
+status: true
+dependencies:
+  theme:
+    - owe_theme
+_core:
+  default_config_hash: dY7_Wihz9ohfBPKP554_brUfc9nPaecShShmC_VTGRM
+id: owe_theme_page_title
+theme: owe_theme
+region: sidebar_first
+weight: -5
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  label_display: '0'
+  provider: core
+visibility: {  }

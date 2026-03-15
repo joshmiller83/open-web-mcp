@@ -1,0 +1,7 @@
+name: 'Open Web Exchange Theme'
+description: 'Custom theme for the Open Web Exchange demo site.'
+type: theme
+base theme: drupal_cms_olivero
+core_version_requirement: ^11
+libraries:
+  - owe_theme/global-styling

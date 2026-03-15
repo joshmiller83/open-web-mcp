@@ -1,0 +1,119 @@
+/* Open Web Exchange — custom theme overrides */
+
+/* ── Format badge ──────────────────────────── */
+.event-format-badge {
+  display: inline-block;
+  padding: 0.2em 0.75em;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+.event-format-badge--in-person  { background: #2e7d32; }
+.event-format-badge--virtual    { background: #1565c0; }
+.event-format-badge--hybrid     { background: #6a1b9a; }
+
+/* ── Event card (teaser listing) ───────────── */
+.event-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: box-shadow 0.15s ease;
+}
+.event-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+.event-card .card__content {
+  padding: 1rem 1.25rem;
+}
+.event-card .card__title {
+  font-size: 1.15rem;
+  margin: 0.25rem 0 0.5rem;
+}
+.event-card .card__date {
+  font-size: 0.875rem;
+  color: #555;
+  margin-bottom: 0.25rem;
+}
+.event-card .card__location {
+  font-size: 0.875rem;
+  color: #777;
+}
+.event-card .card__description {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+/* ── Speakers section (event detail) ──────── */
+.event-speakers {
+  margin: 2.5rem 0 2rem;
+  padding: 2rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+.event-speakers h2 {
+  margin-top: 0;
+}
+.event-speakers__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+.event-speaker-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.event-speaker-card__image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+}
+.event-speaker-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.event-speaker-card__info a {
+  font-weight: 600;
+  color: inherit;
+  text-decoration: none;
+}
+.event-speaker-card__info a:hover {
+  text-decoration: underline;
+}
+.event-speaker-card__info div {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 0.2rem;
+}
+
+/* ── Register CTA ───────────────────────────── */
+.event-register {
+  margin: 2.5rem 0;
+  padding: 2rem;
+  background: #e8f4f8;
+  border-left: 4px solid #1565c0;
+  border-radius: 4px;
+  text-align: center;
+}
+.event-register h2 {
+  margin-top: 0;
+  color: #1565c0;
+}
+.event-register p {
+  color: #444;
+  margin-bottom: 1.25rem;
+}
+.button--large {
+  padding: 0.75em 2em;
+  font-size: 1rem;
+}

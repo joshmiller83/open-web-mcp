@@ -1,0 +1,37 @@
+{#
+/**
+ * @file
+ * Full person profile page template.
+ *
+ * Renders Layout Builder content and adds organization/sector badges.
+ *
+ * Available variables:
+ *   - node: The node entity.
+ *   - content: Rendered fields / Layout Builder output.
+ */
+#}
+<article{{ attributes }}>
+  {{ title_prefix }}
+  {{ title_suffix }}
+
+  <div{{ content_attributes }}>
+    {# Layout Builder handles the main two-column layout #}
+    {{ content|without('links') }}
+
+    {# ── Organization & Sector badges ───────────── #}
+    {% if node.field_organization.value or node.field_sector.value %}
+      <div class="person-meta" style="margin-top:1.5rem;">
+        {% if node.field_organization.value %}
+          <span class="event-format-badge" style="background:#37474f;">
+            {{ node.field_organization.value }}
+          </span>
+        {% endif %}
+        {% if node.field_sector.value %}
+          <span class="event-format-badge" style="background:#4e342e; margin-left:0.5rem;">
+            {{ node.field_sector.value|replace({'_': ' '})|title }}
+          </span>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</article>

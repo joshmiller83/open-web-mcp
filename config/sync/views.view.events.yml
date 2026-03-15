@@ -262,55 +262,17 @@ display:
             reduce: false
           is_grouped: false
       style:
-        type: table
+        type: default
         options:
-          grouping: {  }
-          row_class: ''
+          grouping: []
+          row_class: 'event-listing-row'
           default_row_class: true
-          columns:
-            title: title
-            field_event__date: field_event__date
-            field_event_format: field_event_format
-            field_tags: field_tags
-            field_registration_limit: field_registration_limit
-          default: field_event__date
-          info:
-            title:
-              sortable: true
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_event__date:
-              sortable: true
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_event_format:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_tags:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-          override: true
-          sticky: false
-          summary: ''
-          empty_table: false
-          caption: ''
-          description: ''
       row:
-        type: fields
+        type: 'entity:node'
+        options:
+          relationship: none
+          view_mode: teaser
+          rendering_language: '***LANGUAGE_language_interface***'
       query:
         type: views_query
         options:

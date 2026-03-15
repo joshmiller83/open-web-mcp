@@ -1,0 +1,22 @@
+uuid: dde098d6-79e4-43d4-b918-c51b95945905
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - owe_theme
+_core:
+  default_config_hash: G4iNGvy_k2yNIEH_FJmbkvgBBar1etJIhKJYuygT7hU
+id: owe_theme_content
+theme: owe_theme
+region: content
+weight: 0
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  label_display: '0'
+  provider: system
+visibility: {  }
