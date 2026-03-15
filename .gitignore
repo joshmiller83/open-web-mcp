@@ -1,12 +1,12 @@
 # Dependencies managed by Composer.
-/recipes
+# NOTE: contrib/vendor committed directly for Pantheon deployment.
 
-# Composer
-/vendor/
-/web/core/
-/web/modules/contrib/
-/web/themes/contrib/
-/web/profiles/contrib/
+# Drupal auto-generated scaffold files (managed by composer/installers)
+/web/sites/default/default.settings.php
+/web/sites/default/default.services.yml
+/web/robots.txt
+/web/web.config
+
 /web/libraries/
 
 # Drupal
