@@ -218,8 +218,8 @@ display:
       style:
         type: default
         options:
-          grouping: []
-          row_class: 'event-listing-row'
+          grouping: {  }
+          row_class: event-listing-row
           default_row_class: true
       row:
         type: 'entity:node'

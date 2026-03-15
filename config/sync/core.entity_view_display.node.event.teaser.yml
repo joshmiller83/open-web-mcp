@@ -54,6 +54,21 @@ content:
     third_party_settings: {  }
     weight: 1
     region: content
+  field_event__location_name:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_event_format:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
   field_featured_image:
     type: entity_reference_entity_view
     label: hidden
@@ -63,27 +78,15 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
-  field_event_format:
-    type: list_default
-    label: hidden
-    settings: {  }
-    third_party_settings: {  }
-    weight: 3
-    region: content
-  field_event__location_name:
-    type: string
-    label: hidden
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 4
-    region: content
 hidden:
   content_moderation_control: true
   field_content: true
   field_event__file: true
   field_event__link: true
   field_event__location_address: true
+  field_event_schedule: true
   field_geofield: true
+  field_registration_limit: true
+  field_speakers: true
   field_tags: true
   links: true
