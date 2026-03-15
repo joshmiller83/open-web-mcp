@@ -17,6 +17,13 @@
 $settings['config_sync_directory'] = '../config/sync';
 
 /**
+ * Include Pantheon-generated settings if present.
+ */
+if (file_exists('/var/www/html/web/sites/default/settings.pantheon.php')) {
+  include '/var/www/html/web/sites/default/settings.pantheon.php';
+}
+
+/**
  * Include DDEV-generated settings if present.
  */
 if (file_exists($app_root . '/' . $site_path . '/settings.ddev.php')) {
