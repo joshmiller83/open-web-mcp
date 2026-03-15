@@ -116,14 +116,7 @@ display:
     display_options:
       path: members
       menu:
-        type: normal
-        title: Members
-        description: 'Browse Open Web Exchange members'
-        weight: 1
-        expanded: false
-        menu_name: main
-        parent: ''
-        context: '0'
+        type: none
   rest_export_1:
     id: rest_export_1
     display_title: 'Members REST API'

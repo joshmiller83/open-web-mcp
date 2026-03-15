@@ -15,6 +15,12 @@
 .event-format-badge--in-person  { background: #2e7d32; }
 .event-format-badge--virtual    { background: #1565c0; }
 .event-format-badge--hybrid     { background: #6a1b9a; }
+.event-format-badge--workshop   { background: #e65100; }
+.event-format-badge--summit     { background: #00695c; }
+.event-format-badge--hackathon  { background: #4527a0; }
+.event-format-badge--roundtable { background: #283593; }
+.event-format-badge--forum      { background: #37474f; }
+.event-format-badge--symposium  { background: #880e4f; }
 
 /* ── Event card (teaser listing) ───────────── */
 .event-card {

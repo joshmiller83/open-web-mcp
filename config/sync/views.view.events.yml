@@ -187,24 +187,7 @@ display:
             value: now
             type: date
           group: 1
-          exposed: true
-          expose:
-            operator_id: field_event__date_value_op
-            label: 'From Date'
-            description: ''
-            use_operator: false
-            operator: field_event__date_value_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: date_from
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-            min_placeholder: ''
-            max_placeholder: ''
-            placeholder: ''
+          exposed: false
           is_grouped: false
         field_event_format_value:
           id: field_event_format_value
@@ -217,21 +200,7 @@ display:
           operator: in
           value: {  }
           group: 1
-          exposed: true
-          expose:
-            operator_id: ''
-            label: Format
-            description: ''
-            use_operator: false
-            operator: field_event_format_value_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: format
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
+          exposed: false
           is_grouped: false
         field_tags_target_id:
           id: field_tags_target_id
@@ -244,22 +213,7 @@ display:
           operator: or
           value: {  }
           group: 1
-          exposed: true
-          expose:
-            operator_id: field_tags_target_id_op
-            label: Topic
-            description: ''
-            use_operator: false
-            operator: field_tags_target_id_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: topic
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-            reduce: false
+          exposed: false
           is_grouped: false
       style:
         type: default
