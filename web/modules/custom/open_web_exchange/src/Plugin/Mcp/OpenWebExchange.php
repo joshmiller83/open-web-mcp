@@ -120,18 +120,26 @@ class OpenWebExchange extends McpPluginBase {
       ),
       new Tool(
         name: 'register_for_event',
-        description: 'Register a member for an event. Validates capacity and prevents duplicate registrations.',
+        description: 'Register for an event. Collects name and phone number. For virtual or hybrid events, returns a link to join the session.',
         inputSchema: [
           'type' => 'object',
-          'required' => ['event_id', 'user_id'],
+          'required' => ['event_id', 'name', 'phone'],
           'properties' => [
             'event_id' => [
               'type' => 'integer',
               'description' => 'The node ID of the event.',
             ],
-            'user_id' => [
+            'name' => [
+              'type' => 'string',
+              'description' => 'Full name of the person registering.',
+            ],
+            'phone' => [
+              'type' => 'string',
+              'description' => 'Phone number of the person registering.',
+            ],
+            'attendee_count' => [
               'type' => 'integer',
-              'description' => 'The Drupal user account ID of the member to register.',
+              'description' => 'Number of people expected to attend. Only relevant for virtual or hybrid events. Defaults to 1.',
             ],
           ],
         ],
@@ -247,13 +255,22 @@ class OpenWebExchange extends McpPluginBase {
    */
   protected function executeRegisterForEvent(array $input): array {
     $event_id = (int) ($input['event_id'] ?? 0);
-    $user_id = (int) ($input['user_id'] ?? 0);
+    $name = trim($input['name'] ?? '');
+    $phone = trim($input['phone'] ?? '');
 
-    if (!$event_id || !$user_id) {
-      return ['success' => FALSE, 'message' => 'Both event_id and user_id are required.'];
+    if (!$event_id) {
+      return ['success' => FALSE, 'message' => 'event_id is required.'];
+    }
+    if ($name === '') {
+      return ['success' => FALSE, 'message' => 'name is required.'];
+    }
+    if ($phone === '') {
+      return ['success' => FALSE, 'message' => 'phone is required.'];
     }
 
-    return $this->registrationService->registerUserForEvent($event_id, $user_id);
+    $attendee_count = max(1, (int) ($input['attendee_count'] ?? 1));
+
+    return $this->registrationService->registerGuestForEvent($event_id, $name, $phone, $attendee_count);
   }
 
   /**

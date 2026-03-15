@@ -10,8 +10,7 @@ services:
     class: Drupal\open_web_exchange\RegistrationService
     arguments:
       - '@entity_type.manager'
-      - '@current_user'
-      - '@messenger'
+      - '@database'
 
   open_web_exchange.recommendation_service:
     class: Drupal\open_web_exchange\RecommendationService

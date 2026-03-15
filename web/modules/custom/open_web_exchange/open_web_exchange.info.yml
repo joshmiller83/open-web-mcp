@@ -10,3 +10,4 @@ dependencies:
   - drupal:datetime
   - drupal:user
   - mcp:mcp
+  - webform:webform

@@ -2,39 +2,38 @@
 
 namespace Drupal\open_web_exchange;
 
+use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Session\AccountInterface;
-use Drupal\Core\Messenger\MessengerInterface;
-use Drupal\node\NodeInterface;
 
 /**
- * Service for managing event registrations.
- *
- * Handles registration creation, cancellation, capacity checks,
- * and user registration history.
+ * Service for managing event registrations via Webform submissions.
  */
 class RegistrationService {
 
+  const WEBFORM_ID = 'event_registration';
+
   public function __construct(
     protected EntityTypeManagerInterface $entityTypeManager,
-    protected AccountInterface $currentUser,
-    protected MessengerInterface $messenger,
+    protected Connection $database,
   ) {}
 
   /**
-   * Register a user for an event.
+   * Register a guest (anonymous) for an event.
    *
    * @param int $event_nid
    *   The event node ID.
-   * @param int $user_id
-   *   The user account ID.
+   * @param string $name
+   *   The registrant's full name.
+   * @param string $phone
+   *   The registrant's phone number.
+   * @param int $attendee_count
+   *   Number of people expected to attend.
    *
    * @return array
-   *   Result with keys 'success' (bool) and 'message' (string).
+   *   Result with keys 'success', 'message', and optionally 'join_link'.
    */
-  public function registerUserForEvent(int $event_nid, int $user_id): array {
-    $node_storage = $this->entityTypeManager->getStorage('node');
-    $event = $node_storage->load($event_nid);
+  public function registerGuestForEvent(int $event_nid, string $name, string $phone, int $attendee_count = 1): array {
+    $event = $this->entityTypeManager->getStorage('node')->load($event_nid);
 
     if (!$event || $event->bundle() !== 'event') {
       return ['success' => FALSE, 'message' => "Event $event_nid not found."];
@@ -44,56 +43,44 @@ class RegistrationService {
       return ['success' => FALSE, 'message' => 'This event is not currently accepting registrations.'];
     }
 
-    // Check if already registered.
-    if ($this->isUserRegistered($event_nid, $user_id)) {
-      return ['success' => FALSE, 'message' => 'You are already registered for this event.'];
-    }
-
-    // Check capacity.
     $availability = $this->getAvailability($event);
     if ($availability['status'] === 'full') {
       return ['success' => FALSE, 'message' => 'This event has reached its registration limit.'];
     }
 
-    // Create registration node (using a lightweight 'registration' bundle).
-    $registration = $node_storage->create([
-      'type' => 'registration',
-      'title' => sprintf('Registration: %s — User %d', $event->label(), $user_id),
-      'field_event_ref' => ['target_id' => $event_nid],
-      'field_registrant' => ['target_id' => $user_id],
-      'status' => 1,
+    $webform = $this->entityTypeManager->getStorage('webform')->load(self::WEBFORM_ID);
+    if (!$webform) {
+      return ['success' => FALSE, 'message' => 'Registration form not available.'];
+    }
+
+    $submission = $this->entityTypeManager->getStorage('webform_submission')->create([
+      'webform_id' => self::WEBFORM_ID,
+      'data' => [
+        'event_id'       => $event_nid,
+        'name'           => $name,
+        'phone'          => $phone,
+        'attendee_count' => $attendee_count,
+      ],
     ]);
-    $registration->save();
+    $submission->save();
 
-    return [
-      'success' => TRUE,
-      'message' => sprintf('Successfully registered for "%s".', $event->label()),
-      'registration_id' => (int) $registration->id(),
+    $result = [
+      'success'         => TRUE,
+      'message'         => sprintf('Successfully registered "%s" for "%s".', $name, $event->label()),
+      'registration_id' => (int) $submission->id(),
     ];
-  }
 
-  /**
-   * Check whether a user is already registered for an event.
-   *
-   * @param int $event_nid
-   *   The event node ID.
-   * @param int $user_id
-   *   The user account ID.
-   *
-   * @return bool
-   *   TRUE if the user is registered.
-   */
-  public function isUserRegistered(int $event_nid, int $user_id): bool {
-    $storage = $this->entityTypeManager->getStorage('node');
-    $query = $storage->getQuery()
-      ->condition('type', 'registration')
-      ->condition('field_event_ref', $event_nid)
-      ->condition('field_registrant', $user_id)
-      ->condition('status', 1)
-      ->count()
-      ->accessCheck(FALSE);
+    // Return the virtual join link for remote/hybrid events.
+    $format = $event->get('field_event_format')->value ?? '';
+    if (in_array($format, ['virtual', 'hybrid'])) {
+      $link = $event->get('field_event__link')->first();
+      if ($link) {
+        $result['join_link']       = $link->uri;
+        $result['join_link_title'] = $link->title ?: 'Join virtual session';
+      }
+    }
 
-    return (int) $query->execute() > 0;
+    return $result;
   }
 
   /**
@@ -103,21 +90,17 @@ class RegistrationService {
    *   The event node.
    *
    * @return array
-   *   Array with keys:
-   *   - 'registered': number of current registrations
-   *   - 'limit': registration limit (NULL = unlimited)
-   *   - 'remaining': seats remaining (NULL = unlimited)
-   *   - 'status': 'open', 'limited', or 'full'
+   *   Array with keys 'registered', 'limit', 'remaining', 'status'.
    */
   public function getAvailability(object $event): array {
-    $storage = $this->entityTypeManager->getStorage('node');
-    $count = (int) $storage->getQuery()
-      ->condition('type', 'registration')
-      ->condition('field_event_ref', $event->id())
-      ->condition('status', 1)
-      ->count()
-      ->accessCheck(FALSE)
-      ->execute();
+    // webform_submission_data stores each element as a row, so query directly.
+    $count = (int) $this->database->select('webform_submission_data', 'wsd')
+      ->condition('wsd.webform_id', self::WEBFORM_ID)
+      ->condition('wsd.name', 'event_id')
+      ->condition('wsd.value', (string) $event->id())
+      ->countQuery()
+      ->execute()
+      ->fetchField();
 
     $limit = $event->get('field_registration_limit')->value;
     $limit = $limit ? (int) $limit : NULL;
@@ -125,9 +108,9 @@ class RegistrationService {
     if ($limit === NULL) {
       return [
         'registered' => $count,
-        'limit' => NULL,
-        'remaining' => NULL,
-        'status' => 'open',
+        'limit'      => NULL,
+        'remaining'  => NULL,
+        'status'     => 'open',
       ];
     }
 
@@ -135,44 +118,10 @@ class RegistrationService {
 
     return [
       'registered' => $count,
-      'limit' => $limit,
-      'remaining' => max(0, $remaining),
-      'status' => $remaining <= 0 ? 'full' : ($remaining <= 5 ? 'limited' : 'open'),
+      'limit'      => $limit,
+      'remaining'  => max(0, $remaining),
+      'status'     => $remaining <= 0 ? 'full' : ($remaining <= 5 ? 'limited' : 'open'),
     ];
-  }
-
-  /**
-   * Get all events a user has registered for.
-   *
-   * @param int $user_id
-   *   The user account ID.
-   *
-   * @return \Drupal\node\NodeInterface[]
-   *   Array of registered Event nodes.
-   */
-  public function getUserRegistrations(int $user_id): array {
-    $storage = $this->entityTypeManager->getStorage('node');
-
-    $reg_nids = $storage->getQuery()
-      ->condition('type', 'registration')
-      ->condition('field_registrant', $user_id)
-      ->condition('status', 1)
-      ->accessCheck(FALSE)
-      ->execute();
-
-    if (empty($reg_nids)) {
-      return [];
-    }
-
-    $registrations = $storage->loadMultiple($reg_nids);
-    $events = [];
-    foreach ($registrations as $reg) {
-      $event = $reg->get('field_event_ref')->entity;
-      if ($event) {
-        $events[$event->id()] = $event;
-      }
-    }
-    return $events;
   }
 
 }
