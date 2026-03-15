@@ -54,6 +54,7 @@ jobs:
           git config user.email "bot@getpantheon.com"
           git config user.name "Pantheon Automation"
           git add -A
+          git add --force vendor/ web/core/ web/modules/contrib/ web/themes/contrib/ recipes/
           git commit -m "Add build artifacts [ci skip]"
 
       - name: Push to Pantheon
