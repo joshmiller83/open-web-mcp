@@ -17,10 +17,26 @@
 $settings['config_sync_directory'] = '../config/sync';
 
 /**
- * Include Pantheon-generated settings if present.
+ * Pantheon environments.
  */
-if (file_exists('/var/www/html/web/sites/default/settings.pantheon.php')) {
-  include '/var/www/html/web/sites/default/settings.pantheon.php';
+if (defined('PANTHEON_ENVIRONMENT')) {
+  $databases['default']['default'] = [
+    'driver'    => 'mysql',
+    'database'  => $_ENV['DB_NAME'],
+    'username'  => $_ENV['DB_USER'],
+    'password'  => $_ENV['DB_PASSWORD'],
+    'host'      => $_ENV['DB_HOST'],
+    'port'      => $_ENV['DB_PORT'],
+    'prefix'    => '',
+    'collation' => 'utf8mb4_general_ci',
+  ];
+
+  if (empty($settings['hash_salt'])) {
+    $settings['hash_salt'] = $_ENV['DRUPAL_HASH_SALT'];
+  }
+
+  $settings['file_public_path'] = 'sites/default/files';
+  $settings['file_private_path'] = 'sites/default/files/private';
 }
 
 /**
