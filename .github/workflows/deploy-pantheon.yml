@@ -14,6 +14,7 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: open_web_build
     permissions:
       deployments: write
       contents: read
@@ -45,6 +46,6 @@ jobs:
         with:
           ssh_key: ${{ secrets.PANTHEON_SSH_KEY }}
           machine_token: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
-          site: ${{ vars.PANTHEON_SITE }}
+          site: ${{ secrets.PANTHEON_SITE }}
           git_commit_message: "Deploy ${{ github.sha }} from GitHub Actions"
           delete_old_environments: ${{ github.ref == 'refs/heads/main' }}
