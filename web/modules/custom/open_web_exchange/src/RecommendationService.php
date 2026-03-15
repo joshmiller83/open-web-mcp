@@ -29,8 +29,8 @@ class RecommendationService {
    *   Array of formatted event data arrays, scored by topic overlap.
    */
   public function suggestEventsForUser(int $user_id, int $limit = 5): array {
-    // Load the member profile for this user.
-    $profile = $this->getMemberProfile($user_id);
+    // Load the person profile for this user.
+    $profile = $this->getPersonProfile($user_id);
 
     if (!$profile) {
       // Fall back to upcoming events with no personalisation.
@@ -41,9 +41,9 @@ class RecommendationService {
       );
     }
 
-    // Collect the user's topic interest IDs.
+    // Collect the user's topic interest IDs from field_tags.
     $interest_ids = [];
-    foreach ($profile->get('field_interests')->referencedEntities() as $term) {
+    foreach ($profile->get('field_tags')->referencedEntities() as $term) {
       $interest_ids[] = (int) $term->id();
     }
 
@@ -65,7 +65,7 @@ class RecommendationService {
       }
 
       $event_topic_ids = [];
-      foreach ($event->get('field_topics')->referencedEntities() as $term) {
+      foreach ($event->get('field_tags')->referencedEntities() as $term) {
         $event_topic_ids[] = (int) $term->id();
       }
 
@@ -100,10 +100,10 @@ class RecommendationService {
    *
    * @return \Drupal\node\NodeInterface|null
    */
-  protected function getMemberProfile(int $user_id): ?object {
+  protected function getPersonProfile(int $user_id): ?object {
     $storage = $this->entityTypeManager->getStorage('node');
     $nids = $storage->getQuery()
-      ->condition('type', 'member_profile')
+      ->condition('type', 'person')
       ->condition('uid', $user_id)
       ->condition('status', 1)
       ->range(0, 1)

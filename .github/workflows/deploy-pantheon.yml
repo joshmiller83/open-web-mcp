@@ -1,0 +1,50 @@
+name: Deploy to Pantheon
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      deployments: write
+      contents: read
+      pull-requests: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP 8.3
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          tools: composer:v2
+          coverage: none
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Composer install (no dev dependencies)
+        run: composer install --no-dev --optimize-autoloader --no-interaction
+
+      - name: Push to Pantheon
+        uses: pantheon-systems/push-to-pantheon@0.9.0
+        with:
+          ssh_key: ${{ secrets.PANTHEON_SSH_KEY }}
+          machine_token: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
+          site: ${{ vars.PANTHEON_SITE }}
+          git_commit_message: "Deploy ${{ github.sha }} from GitHub Actions"
+          delete_old_environments: ${{ github.ref == 'refs/heads/main' }}

@@ -1,0 +1,19 @@
+uuid: c00735c6-1f99-4823-b6ae-a7d2087e8d58
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_sector
+    - node.type.person
+id: node.person.field_sector
+field_name: field_sector
+entity_type: node
+bundle: person
+label: Sector
+description: 'The industry or sector this member works in.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

@@ -7,8 +7,8 @@
  * Run with:  ddev drush php:script scripts/seed-demo-content.php
  *
  * Creates:
- *  - 10 topic taxonomy terms
- *  - 5 member profiles
+ *  - 10 topic terms in the tags vocabulary
+ *  - 5 person profiles
  *  - 8 upcoming events across different formats and topics
  */
 
@@ -34,7 +34,7 @@ $topics_data = [
 $topic_terms = [];
 foreach ($topics_data as $name) {
   $term = Term::create([
-    'vid' => 'topics',
+    'vid' => 'tags',
     'name' => $name,
   ]);
   $term->save();
@@ -42,7 +42,7 @@ foreach ($topics_data as $name) {
   echo "Created topic: $name\n";
 }
 
-// ── Member Profiles ───────────────────────────────────────────────────────────
+// ── Person Profiles ───────────────────────────────────────────────────────────
 
 $members_data = [
   [
@@ -86,17 +86,18 @@ $member_nodes = [];
 foreach ($members_data as $m) {
   $interest_ids = array_map(fn($t) => ['target_id' => $topic_terms[$t]->id()], $m['interests']);
   $node = Node::create([
-    'type' => 'member_profile',
+    'type' => 'person',
     'title' => $m['name'],
-    'body' => ['value' => $m['bio'], 'format' => 'basic_html'],
+    'field_content' => ['value' => $m['bio'], 'format' => 'basic_html'],
     'field_organization' => $m['org'],
     'field_sector' => $m['sector'],
-    'field_interests' => $interest_ids,
+    'field_tags' => $interest_ids,
     'status' => 1,
+    'moderation_state' => 'published',
   ]);
   $node->save();
   $member_nodes[$m['name']] = $node;
-  echo "Created member profile: {$m['name']}\n";
+  echo "Created person profile: {$m['name']}\n";
 }
 
 // ── Events ────────────────────────────────────────────────────────────────────
@@ -217,29 +218,40 @@ foreach ($events_data as $e) {
     $e['speakers']
   );
 
-  $fields = [
+  $duration_mins = $e['duration_hours'] * 60;
+
+  // Fields with double-underscore names can't be set via Node::create() array
+  // because Drupal's TypedData treats __ as a sub-property separator.
+  // Create the node first with safe field names, then set double-underscore
+  // fields explicitly via ->set().
+  $node = Node::create([
     'type' => 'event',
     'title' => $e['title'],
-    'body' => ['value' => $e['body'], 'format' => 'basic_html'],
-    'field_event_date' => $start->format('Y-m-d\TH:i:s'),
-    'field_event_end_date' => $end->format('Y-m-d\TH:i:s'),
+    'field_content' => ['value' => $e['body'], 'format' => 'basic_html'],
     'field_event_format' => $e['format'],
-    'field_event_location' => $e['location'],
-    'field_topics' => $topic_refs,
+    'field_tags' => $topic_refs,
     'field_speakers' => $speaker_refs,
     'field_registration_limit' => $e['limit'],
     'field_event_schedule' => ['value' => $e['schedule'], 'format' => 'plain_text'],
     'status' => 1,
-  ];
+    'moderation_state' => 'published',
+  ]);
+
+  $node->set('field_event__date', [
+    'value' => $start->getTimestamp(),
+    'end_value' => $end->getTimestamp(),
+    'duration' => $duration_mins,
+    'timezone' => 'UTC',
+  ]);
+  $node->set('field_event__location_name', $e['location']);
 
   if ($e['format'] !== 'in_person') {
-    $fields['field_virtual_link'] = [
+    $node->set('field_event__link', [
       'uri' => 'https://meet.example.org/' . strtolower(preg_replace('/\W+/', '-', $e['title'])),
       'title' => 'Join virtual session',
-    ];
+    ]);
   }
 
-  $node = Node::create($fields);
   $node->save();
   echo "Created event: {$e['title']}\n";
 }

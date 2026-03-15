@@ -1,0 +1,20 @@
+uuid: 69153593-53b8-46c6-99cb-887a8f922719
+langcode: en
+status: true
+dependencies:
+  module:
+    - klaro
+    - mcp
+    - media
+    - system
+_core:
+  default_config_hash: j5zLMOdJBqC0bMvSdth5UebkprJB8g_2FXHqhfpJzow
+id: anonymous
+label: 'Anonymous user'
+weight: 0
+is_admin: false
+permissions:
+  - 'access content'
+  - 'use klaro'
+  - 'use mcp server'
+  - 'view media'

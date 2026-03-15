@@ -1,0 +1,25 @@
+{#
+/**
+ * @file
+ * Template for event registration availability display.
+ *
+ * Available variables:
+ * - availability: array with keys:
+ *   - registered: number of current registrations
+ *   - limit: registration limit (null = unlimited)
+ *   - remaining: seats remaining (null = unlimited)
+ *   - status: 'open', 'limited', or 'full'
+ * - event: the event node
+ */
+#}
+<div class="event-availability event-availability--{{ availability.status }}">
+  {% if availability.limit is null %}
+    <p class="event-availability__message">Registration open &mdash; unlimited capacity.</p>
+  {% elseif availability.status == 'full' %}
+    <p class="event-availability__message">This event is <strong>full</strong> ({{ availability.registered }}/{{ availability.limit }} registered).</p>
+  {% elseif availability.status == 'limited' %}
+    <p class="event-availability__message">Almost full &mdash; <strong>{{ availability.remaining }}</strong> spot{{ availability.remaining != 1 ? 's' : '' }} remaining ({{ availability.registered }}/{{ availability.limit }} registered).</p>
+  {% else %}
+    <p class="event-availability__message">{{ availability.registered }}/{{ availability.limit }} registered &mdash; {{ availability.remaining }} spot{{ availability.remaining != 1 ? 's' : '' }} available.</p>
+  {% endif %}
+</div>

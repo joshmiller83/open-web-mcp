@@ -1,0 +1,5 @@
+_core:
+  default_config_hash: L2Y6vw4smBRg-My7ByNjqCDJMViXav8pIz9wL9CY_TU
+max_registrations_per_user: 10
+recommendation_lookahead_days: 90
+mcp_debug_logging: false

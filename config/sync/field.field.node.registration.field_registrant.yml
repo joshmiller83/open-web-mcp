@@ -1,3 +1,4 @@
+uuid: 68270aca-4c88-424a-b4de-98ff34bd0fa7
 langcode: en
 status: true
 dependencies:
@@ -17,8 +18,8 @@ default_value_callback: ''
 settings:
   handler: 'default:user'
   handler_settings:
+    auto_create: false
     filter:
       type: _none
     include_anonymous: false
-    auto_create: false
 field_type: entity_reference

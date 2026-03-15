@@ -1,11 +1,11 @@
+uuid: d15611c1-461d-469f-a444-754982ad06f8
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.member_profile.field_interests
-    - field.field.node.member_profile.field_organization
-    - field.field.node.member_profile.field_sector
-    - node.type.member_profile
+    - field.field.node.person.field_organization
+    - field.field.node.person.field_sector
+    - node.type.person
   module:
     - node
     - user
@@ -18,100 +18,100 @@ base_table: node_field_data
 base_field: nid
 display:
   default:
-    display_plugin: default
     id: default
     display_title: Default
+    display_plugin: default
     position: 0
     display_options:
       title: 'Member Directory'
-      filters:
-        status:
-          value: '1'
-          table: node_field_data
-          field: status
-          plugin_id: boolean
-          id: status
-          group: 1
-        type:
-          id: type
-          table: node_field_data
-          field: type
-          value:
-            member_profile: member_profile
-          plugin_id: bundle
-          group: 1
-        field_interests_target_id:
-          id: field_interests_target_id
-          table: node__field_interests
-          field: field_interests_target_id
-          relationship: none
-          group_type: group
-          admin_label: ''
-          operator: or
-          value: {  }
-          exposed: true
-          expose:
-            identifier: interest
-            label: 'Filter by Interest'
-            required: false
-            multiple: false
-            reduce: false
-          plugin_id: taxonomy_index_tid
-          group: 1
-      sorts:
-        title:
-          id: title
-          table: node_field_data
-          field: title
-          order: ASC
-          plugin_id: standard
       fields:
         title:
           id: title
           table: node_field_data
           field: title
+          plugin_id: field
           label: Name
           settings:
             link_to_entity: true
-          plugin_id: field
         field_organization:
           id: field_organization
           table: node__field_organization
           field: field_organization
-          label: Organization
           plugin_id: field
+          label: Organization
         field_sector:
           id: field_sector
           table: node__field_sector
           field: field_sector
-          label: Sector
           plugin_id: field
-        field_interests:
-          id: field_interests
-          table: node__field_interests
-          field: field_interests
+          label: Sector
+        field_tags:
+          id: field_tags
+          table: node__field_tags
+          field: field_tags
+          plugin_id: field
           label: Interests
           settings:
             link: true
-          plugin_id: field
       pager:
         type: full
         options:
           items_per_page: 25
-      style:
-        type: table
-      row:
-        type: fields
+      exposed_form:
+        type: basic
       access:
         type: none
       cache:
         type: tag
-      exposed_form:
-        type: basic
+      sorts:
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          plugin_id: standard
+          order: ASC
+      filters:
+        status:
+          id: status
+          table: node_field_data
+          field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+        type:
+          id: type
+          table: node_field_data
+          field: type
+          plugin_id: bundle
+          value:
+            person: person
+          group: 1
+        field_tags_target_id:
+          id: field_tags_target_id
+          table: node__field_tags
+          field: field_tags_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            label: 'Filter by Interest'
+            identifier: interest
+            required: false
+            multiple: false
+            reduce: false
+      style:
+        type: table
+      row:
+        type: fields
   page_1:
-    display_plugin: page
     id: page_1
     display_title: 'Member Directory'
+    display_plugin: page
     position: 1
     display_options:
       path: members
@@ -119,24 +119,24 @@ display:
         type: normal
         title: Members
         description: 'Browse Open Web Exchange members'
-        expanded: false
-        parent: ''
         weight: 1
-        context: '0'
+        expanded: false
         menu_name: main
+        parent: ''
+        context: '0'
   rest_export_1:
-    display_plugin: rest_export
     id: rest_export_1
     display_title: 'Members REST API'
+    display_plugin: rest_export
     position: 2
     display_options:
-      path: api/members
-      auth:
-        - cookie
-        - basic_auth
       style:
         type: serializer
         options:
           uses_fields: false
           formats:
             json: json
+      path: api/members
+      auth:
+        - cookie
+        - basic_auth

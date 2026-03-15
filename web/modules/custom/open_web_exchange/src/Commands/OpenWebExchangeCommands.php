@@ -110,7 +110,7 @@ class OpenWebExchangeCommands extends DrushCommands {
   protected function findTopicIdsByName(string $name): array {
     $storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
     $tids = $storage->getQuery()
-      ->condition('vid', 'topics')
+      ->condition('vid', 'tags')
       ->condition('name', '%' . $name . '%', 'LIKE')
       ->accessCheck(FALSE)
       ->execute();

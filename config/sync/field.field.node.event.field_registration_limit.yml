@@ -1,3 +1,4 @@
+uuid: 677dc781-5e2a-4d12-aa32-d7fd33ea8f89
 langcode: en
 status: true
 dependencies:
@@ -15,8 +16,8 @@ translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
-  min: ''
-  max: ''
+  min: null
+  max: null
   prefix: ''
   suffix: ' seats'
 field_type: integer

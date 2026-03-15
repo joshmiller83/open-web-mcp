@@ -2,10 +2,8 @@
 
 namespace Drupal\open_web_exchange;
 
-use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Database\Connection;
-use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 
 /**
  * Service for querying events with filtering and sorting.
@@ -38,15 +36,17 @@ class EventQueryService {
     $query = $storage->getQuery()
       ->condition('type', 'event')
       ->condition('status', 1)
-      ->sort('field_event_date', 'ASC')
+      ->sort('field_event__date', 'ASC')
       ->accessCheck(FALSE);
 
-    // Default to events from now onward.
-    $from_date = $filters['from_date'] ?? date(DateTimeItemInterface::DATETIME_STORAGE_FORMAT);
-    $query->condition('field_event_date', $from_date, '>=');
+    // smartdate stores Unix timestamps; convert ISO string to timestamp.
+    $from_ts = isset($filters['from_date'])
+      ? strtotime($filters['from_date'])
+      : time();
+    $query->condition('field_event__date', $from_ts, '>=');
 
     if (!empty($filters['to_date'])) {
-      $query->condition('field_event_date', $filters['to_date'], '<=');
+      $query->condition('field_event__date', strtotime($filters['to_date']), '<=');
     }
 
     if (!empty($filters['format'])) {
@@ -54,7 +54,7 @@ class EventQueryService {
     }
 
     if (!empty($filters['topic_ids'])) {
-      $query->condition('field_topics', $filters['topic_ids'], 'IN');
+      $query->condition('field_tags', $filters['topic_ids'], 'IN');
     }
 
     $limit = $filters['limit'] ?? 10;
@@ -96,7 +96,7 @@ class EventQueryService {
    */
   public function formatEventForMcp(object $event): array {
     $topics = [];
-    foreach ($event->get('field_topics')->referencedEntities() as $term) {
+    foreach ($event->get('field_tags')->referencedEntities() as $term) {
       $topics[] = ['id' => $term->id(), 'name' => $term->label()];
     }
 
@@ -110,19 +110,26 @@ class EventQueryService {
       ];
     }
 
-    $start = $event->get('field_event_date')->value;
-    $end = $event->get('field_event_end_date')->value;
+    // smartdate stores Unix timestamps in value / end_value.
+    $date_item = $event->get('field_event__date')->first();
+    $start_ts = $date_item?->value;
+    $end_ts = $date_item?->end_value;
+    $start = $start_ts ? date('c', (int) $start_ts) : NULL;
+    $end = $end_ts ? date('c', (int) $end_ts) : NULL;
+
     $limit = $event->get('field_registration_limit')->value;
+    $link_field = $event->get('field_event__link');
+    $virtual_link = $link_field->isEmpty() ? '' : $link_field->first()->uri;
 
     return [
       'id' => (int) $event->id(),
       'title' => $event->label(),
-      'description' => $event->get('body')->value ?? '',
+      'description' => $event->get('field_content')->value ?? '',
       'start_date' => $start,
       'end_date' => $end,
       'format' => $event->get('field_event_format')->value,
-      'location' => $event->get('field_event_location')->value ?? '',
-      'virtual_link' => $event->get('field_virtual_link')->uri ?? '',
+      'location' => $event->get('field_event__location_name')->value ?? '',
+      'virtual_link' => $virtual_link,
       'topics' => $topics,
       'speakers' => $speakers,
       'registration_limit' => $limit ? (int) $limit : NULL,

@@ -1,3 +1,4 @@
+uuid: 4110016e-a6db-4f7c-97f3-cf4061e590d2
 langcode: en
 status: true
 dependencies:
@@ -13,7 +14,8 @@ description: 'How the event will be delivered.'
 required: true
 translatable: false
 default_value:
-  - value: in_person
+  -
+    value: in_person
 default_value_callback: ''
 settings: {  }
 field_type: list_string

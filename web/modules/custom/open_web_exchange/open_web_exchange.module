@@ -23,8 +23,10 @@ function open_web_exchange_node_presave(EntityInterface $entity) {
   }
 
   // Ensure end date is after start date when both are set.
-  $start = $entity->get('field_event_date')->value;
-  $end = $entity->get('field_event_end_date')->value;
+  // field_event__date is a smartdate field; value = start timestamp, end_value = end timestamp.
+  $date_item = $entity->get('field_event__date')->first();
+  $start = $date_item?->value;
+  $end = $date_item?->end_value;
   if ($start && $end && $end <= $start) {
     \Drupal::messenger()->addWarning(t('The event end date should be after the start date.'));
   }

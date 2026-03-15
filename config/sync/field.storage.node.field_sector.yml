@@ -1,3 +1,4 @@
+uuid: 35d609c7-7a63-419c-9680-eecf8fe5d971
 langcode: en
 status: true
 dependencies:
@@ -9,19 +10,26 @@ entity_type: node
 type: list_string
 settings:
   allowed_values:
-    - value: research
+    -
+      value: research
       label: Research
-    - value: nonprofit
+    -
+      value: nonprofit
       label: 'Nonprofit / NGO'
-    - value: government
+    -
+      value: government
       label: 'Government / Public Agency'
-    - value: business
+    -
+      value: business
       label: Business
-    - value: community
+    -
+      value: community
       label: 'Community Group'
-    - value: academic
+    -
+      value: academic
       label: 'Academic / University'
-    - value: other
+    -
+      value: other
       label: Other
   allowed_values_function: ''
 module: options

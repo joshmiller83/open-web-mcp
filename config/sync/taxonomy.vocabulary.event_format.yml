@@ -1,8 +1,0 @@
-langcode: en
-status: true
-dependencies: {  }
-name: 'Event Format'
-vid: event_format
-description: 'Delivery format for an event: in-person, virtual, or hybrid.'
-hierarchy: 0
-weight: 1

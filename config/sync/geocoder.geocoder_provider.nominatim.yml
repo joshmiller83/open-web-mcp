@@ -1,0 +1,18 @@
+uuid: 32760d20-3251-40e8-bc6d-ecb666a0d552
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: UlAk6Z7cQpm1bCeB2viqYDyWsUzh8NjZewJsMr3q1Lw
+id: nominatim
+label: Nominatim
+plugin: nominatim
+configuration:
+  throttle:
+    period: 2
+    limit: 1
+  geocoder:
+    locale: ''
+  rootUrl: 'https://nominatim.openstreetmap.org'
+  userAgent: Drupal
+  referer: ''

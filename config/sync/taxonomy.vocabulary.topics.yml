@@ -1,8 +1,0 @@
-langcode: en
-status: true
-dependencies: {  }
-name: Topics
-vid: topics
-description: 'Subject areas used to tag events and member interests for discovery and recommendations.'
-hierarchy: 0
-weight: 0
