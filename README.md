@@ -2,6 +2,17 @@
 
 > **DrupalCon Demo** — A demonstration of [Drupal CMS](https://www.drupal.org/drupal-cms) as an open collaboration platform, combining structured content, event management workflows, and AI integration through the [Drupal MCP module](https://www.drupal.org/project/mcp).
 
+Live development instance: https://dev-mcp-demo.pantheonsite.io/
+
+You can test this on Claude:
+
+1. Click settings in the lower left
+2. Click "Connectors"
+3. Click "Add custom connector"
+4. Give it the url `https://dev-mcp-demo.pantheonsite.io/mcp/post`
+5. Give it whatever permissions you want
+6. Ask Claude what is happening this month on the open web exchange.
+
 ---
 
 ## What This Demo Shows
